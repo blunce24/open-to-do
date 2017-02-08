@@ -43,3 +43,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Used to generate active model serializers
 gem 'active_model_serializers', '~> 0.10.0'
+
+# Enable Cross Origin Resource Sharing (CORS)
+gem 'rack-cors'
