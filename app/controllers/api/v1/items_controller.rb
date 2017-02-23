@@ -19,8 +19,13 @@ module Api::V1
 
     def update
       item = Item.find(params[:id])
-      if item.update(item_params)
-        render json: item
+      #user = User.find_by_id(session[:user_id])
+      if :authorized?
+        if item.update(item_params)
+          render json: item
+        else
+          render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
+        end
       else
         render json: { errors: item.errors.full_messages }, status: :unprocessable_entity
       end
