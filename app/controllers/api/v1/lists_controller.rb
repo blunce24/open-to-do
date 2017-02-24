@@ -21,7 +21,7 @@ module Api::V1
       begin
           #user = User.find_by_id(session[:user_id])
           list = List.find(params[:id])
-          if :authorized?
+          if authorized?
             list.destroy
             render json: {}, status: :no_content
           else
@@ -33,14 +33,12 @@ module Api::V1
     end
 
     def update
-      user = User.find_by_id(session[:user_id])
+      #user = User.find_by_id(session[:user_id])
       list = List.find(params[:id])
-      if list.user = user
-        if list.update(list_params)
-          render json: list
-        else
-          render json: { errors: list.errors.full_messages }, status: :unprocessable_entity
-        end
+      authorized?(list)
+
+      if list.update(list_params)
+        render json: list
       else
         render json: { errors: list.errors.full_messages }, status: :unprocessable_entity
       end

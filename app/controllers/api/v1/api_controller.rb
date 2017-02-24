@@ -11,11 +11,10 @@ module Api::V1
       authenticate_or_request_with_http_basic {|username, password| User.where( name: username, password_digest: password).present? }
     end
 
-    def authorized?
-      user = User.find_by_id(session[:user_id])
-
+    def authorized?(obj)
       authenticate_or_request_with_http_basic do |username, password|
-        username == user.username and password == user.password_digest
+        user = User.where( name: username, password_digest: password)
+        obj.user == user
       end
     end
   end

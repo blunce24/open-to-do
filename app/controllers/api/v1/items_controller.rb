@@ -20,7 +20,7 @@ module Api::V1
     def update
       item = Item.find(params[:id])
       #user = User.find_by_id(session[:user_id])
-      if :authorized?
+      if :authorized?(item)
         if item.update(item_params)
           render json: item
         else
