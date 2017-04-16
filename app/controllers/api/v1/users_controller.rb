@@ -1,6 +1,6 @@
 module Api::V1
   class UsersController < ApiController
-    before_action :authenticated?
+    # before_action :authenticated?
 
     def index
       users = User.all
@@ -24,6 +24,17 @@ module Api::V1
       rescue ActiveRecord::RecordNotFound
         render :json => {}, :status => :not_found
       end
+    end
+
+    def show
+      user = User.find(params[:id])
+      lists = user.lists
+    end
+
+    def find_user
+      p params
+      user = User.find_by_email(params[:email])
+      render json: user, each_serializer: UserSerializer
     end
 
     private

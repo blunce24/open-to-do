@@ -1,6 +1,6 @@
 module Api::V1
   class ListsController < ApiController
-    before_action :authenticated?
+    #before_action :authenticated?
 
     def index
       lists = List.all
