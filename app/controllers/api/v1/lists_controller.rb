@@ -19,16 +19,24 @@ module Api::V1
 
     def destroy
       begin
-        list = List.find(params[:id])
-        list.destroy
-        render json: {}, status: :no_content
-      rescue ActiveRecord::RecordNotFound
-        render :json => {}, :status => :not_found
-      end
+          #user = User.find_by_id(session[:user_id])
+          list = List.find(params[:id])
+          if authorized?
+            list.destroy
+            render json: {}, status: :no_content
+          else
+            render json: { errors: list.errors.full_messages }, status: :unprocessable_entity
+          end
+        rescue ActiveRecord::RecordNotFound
+          render :json => {}, :status => :not_found
+        end
     end
 
     def update
+      #user = User.find_by_id(session[:user_id])
       list = List.find(params[:id])
+      authorized?(list)
+
       if list.update(list_params)
         render json: list
       else
